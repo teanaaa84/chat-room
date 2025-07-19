@@ -1,0 +1,34 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Distribution / packaging
+*.egg-info/
+build/
+dist/
+
+# Logs and temp files
+*.log
+tempCodeRunnerFile.py
+
+# IDEs and editors
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Compiled C files
+*.so
+
+# Test cache
+.pytest_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Personal documents (like PDFs)
+*.pdf
