@@ -4,51 +4,89 @@ from datetime import datetime
 from models.user import User
 from models.message import Message
 from data_structure.hash import HashTable
+from data_structure.stack import Stack
+import uuid
 
 
 class DatabaseManager:
     def __init__(self, db_file="messenger_db.json"):
+        print("DatabaseManager: Starting initialization...")
         self.db_file = db_file
         self.user_table = HashTable(size=100)  # هش تیبل برای کاربران
+        print("DatabaseManager: Loading data...")
         self.load_data()
+        print("DatabaseManager: Initialization complete")
 
     def load_data(self):
+        print("DatabaseManager: Checking if database file exists...")
         if not os.path.exists(self.db_file):
+            print("DatabaseManager: Database file not found, creating empty database...")
             self._initialize_empty_db()
-            return
+        
+        # Load users from users.json if it exists
+        users_file = "users.json"
+        if os.path.exists(users_file):
+            print("DatabaseManager: Loading users from users.json...")
+            try:
+                with open(users_file, "r", encoding="utf-8") as f:
+                    users_data = json.load(f)
+                    for username, user_info in users_data.items():
+                        existing_user = self.user_table.get(username)
+                        if not existing_user:
+                            user = User(
+                                user_id=user_info.get("id", str(uuid.uuid4())[:8].upper()),
+                                username=username,
+                                password="123456"
+                            )
+                            self.user_table.insert(username, user)
+                            print(f"DatabaseManager: Loaded user '{username}' from users.json")
+            except Exception as e:
+                print(f"DatabaseManager: Error loading users.json: {e}")
 
-        with open(self.db_file, "r", encoding="utf-8") as f:
-            data = json.load(f)
-
-            # بارگیری کاربران
-            for username, user_data in data.get("users", {}).items():
-                user = User(
-                    user_id=user_data["user_id"],
-                    username=username,
-                    password=user_data["password"],
-                )
-
-                # بارگیری پیام‌های کاربر
-                for msg_data in user_data.get("messages", []):
-                    message = Message(
-                        message_id=msg_data["id"],
-                        sender=msg_data["from"],
-                        time=msg_data["timestamp"],
-                        content=msg_data["text"],
-                    )
-
-                    # بارگیری پاسخ‌ها
-                    for reply in msg_data.get("replies", []):
-                        message.replies.add_reply(reply)
-
-                    # اضافه کردن پیام به BST کاربر
-                    user.messages_bst.insert(message)
-
-                    # اضافه کردن به استک پیام‌های خوانده نشده اگر لازم باشد
-                    if msg_data.get("unread", False):
-                        user.unread_stack.push(message)
-
-                self.user_table.insert(username, user)
+        # Check if messenger_db.json is empty
+        if os.path.exists(self.db_file):
+            print("DatabaseManager: Checking if database file is empty...")
+            if os.path.getsize(self.db_file) == 0:
+                print("DatabaseManager: Database file is empty, initializing...")
+                self._initialize_empty_db()
+            else:
+                print("DatabaseManager: Loading data from existing database...")
+                try:
+                    with open(self.db_file, "r", encoding="utf-8") as f:
+                        data = json.load(f)
+                        for username, user_data in data.get("users", {}).items():
+                            user = User(
+                                user_id=user_data["user_id"],
+                                username=username,
+                                password=user_data["password"],
+                            )
+                            for msg_data in user_data.get("messages", []):
+                                message = Message(
+                                    message_id=msg_data["id"],
+                                    sender=msg_data["from"],
+                                    time=msg_data["timestamp"],
+                                    content=msg_data["text"],
+                                    to=msg_data.get("to")
+                                )
+                                for reply in msg_data.get("replies") or []:
+                                    message.replies.add_reply(reply)
+                                # اضافه کردن پیام به BST گیرنده
+                                user.messages_bst.insert(message)
+                                # اضافه کردن پیام به BST فرستنده (اگر کاربر فرستنده وجود دارد)
+                                if message.sender != username:
+                                    sender_user = self.user_table.get(message.sender)
+                                    if sender_user:
+                                        sender_user.messages_bst.insert(message)
+                                if msg_data.get("unread", False):
+                                    user.unread_stack.push(message)
+                            existing_user = self.user_table.get(username)
+                            if existing_user:
+                                existing_user.messages_bst = user.messages_bst
+                                existing_user.unread_stack = user.unread_stack
+                            else:
+                                self.user_table.insert(username, user)
+                except Exception as e:
+                    print(f"DatabaseManager: Error loading messenger_db.json: {e}")
 
     def save_data(self):
         data = {"users": {}}
@@ -106,16 +144,42 @@ class DatabaseManager:
             temp = temp.next
         return False
 
+    def load_users_from_json(self, json_file_path):
+        """Load users from a specific JSON file"""
+        if not os.path.exists(json_file_path):
+            print(f"load_users_from_json: File {json_file_path} not found")
+            return
+        
+        try:
+            with open(json_file_path, "r", encoding="utf-8") as f:
+                users_data = json.load(f)
+                for username, user_info in users_data.items():
+                    # Create user with default password if not exists
+                    existing_user = self.user_table.get(username)
+                    if not existing_user:
+                        user = User(
+                            user_id=user_info.get("id", str(uuid.uuid4())[:8].upper()),
+                            username=username,
+                            password="123456"  # Default password
+                        )
+                        self.user_table.insert(username, user)
+                        print(f"load_users_from_json: Loaded user '{username}' from {json_file_path}")
+        except Exception as e:
+            print(f"load_users_from_json: Error loading {json_file_path}: {e}")
+
     def add_user(self, user):
         """اضافه کردن کاربر جدید به سیستم"""
+        print(f"add_user: Adding user '{user.username}' to system")
         self.user_table.insert(user.username, user)
+        print(f"add_user: User '{user.username}' added to hash table")
         self.save_data()
+        print(f"add_user: Data saved to file")
 
     def get_user(self, username):
         """دریافت کاربر بر اساس نام کاربری"""
         return self.user_table.get(username)
 
-    def send_message(self, sender, receiver_username, content):
+    def send_message(self, sender, receiver_username, content, parent_id=None):
         """ارسال پیام جدید"""
         receiver = self.get_user(receiver_username)
         if not receiver:
@@ -126,6 +190,8 @@ class DatabaseManager:
             sender=sender.username,
             time=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             content=content,
+            to=receiver_username,  # Store receiver
+            parent_id=parent_id
         )
 
         # اضافه به BST گیرنده
@@ -133,6 +199,9 @@ class DatabaseManager:
 
         # اضافه به استک خوانده نشده‌های گیرنده
         receiver.unread_stack.push(new_msg)
+
+        # اضافه به BST فرستنده هم (برای نمایش در چت)
+        sender.messages_bst.insert(new_msg)
 
         self.save_data()
         return True

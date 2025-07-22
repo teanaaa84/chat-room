@@ -1,5 +1,7 @@
 from customtkinter import *
 from models.user import User
+import uuid
+from data_structure.hash import HashTable
 
 
 class LoginApp(CTk):
@@ -13,22 +15,16 @@ class LoginApp(CTk):
         set_default_color_theme("dark-blue")
 
         self.is_login = True
+        self.user_table = HashTable()
         self.build_ui()
 
-    def handle_submit(self):
-        if self.is_login:
-            # بررسی وجود کاربر در HashTable
-            user = self.user_table.get(self.username_entry.get())
-            if user and user.password == self.password_entry.get():
-                self.open_main_window(user)
-        else:
-            # ثبت کاربر جدید در HashTable
-            new_user = User(
-                user_id=generate_id(),
-                username=self.username_entry.get(),
-                password=self.password_entry.get(),
-            )
-            self.user_table.insert(new_user.username, new_user)
+    def generate_id(self):
+        return str(uuid.uuid4())[:8].upper()
+
+    def open_main_window(self, user):
+        print(f"Opening main window for user: {user.username}")
+        # TODO: Implement main window opening
+        pass
 
     def build_ui(self):
         self.configure(fg_color="#1E1B2E")
@@ -177,7 +173,7 @@ class LoginApp(CTk):
             # دکمه رو زیر password_frame میذاریم
             self.submit_button.pack(pady=20, in_=self.form_frame)
 
-            self.switch_label.configure(text="Don’t have an account? Sign up here")
+            self.switch_label.configure(text="Don't have an account? Sign up here")
 
         else:
             self.title_label.configure(text="Sign Up")
@@ -214,12 +210,24 @@ class LoginApp(CTk):
         confirm = self.confirm_entry.get()
 
         if self.is_login:
-            print(f"Logging in with: {username} / {password}")
+            # بررسی وجود کاربر در HashTable
+            user = self.user_table.get(username)
+            if user and user.password == password:
+                self.open_main_window(user)
+            else:
+                print("Invalid username or password")
         else:
             if password != confirm:
                 print("Passwords do not match.")
             else:
-                print(f"Signing up: {username} / {password}")
+                # ثبت کاربر جدید در HashTable
+                new_user = User(
+                    user_id=self.generate_id(),
+                    username=username,
+                    password=password,
+                )
+                self.user_table.insert(new_user.username, new_user)
+                print(f"User {username} registered successfully")
 
 
 if __name__ == "__main__":

@@ -1,5 +1,17 @@
-from ui.main_window import LoginWindow
+print("Starting messenger app...")
 
-if __name__ == "__main__":
-    login = LoginWindow()
-    login.run()
+try:
+    print("Importing LoginWindow...")
+    from ui.login import LoginWindow
+    print("LoginWindow imported successfully")
+    
+    if __name__ == "__main__":
+        print("Creating LoginWindow instance...")
+        login = LoginWindow()
+        print("LoginWindow created, starting run()...")
+        login.run()
+        print("App finished")
+except Exception as e:
+    print(f"Error occurred: {e}")
+    import traceback
+    traceback.print_exc()

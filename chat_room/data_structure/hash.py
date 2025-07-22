@@ -1,17 +1,18 @@
+from typing import Optional, List
+
 class HashTableNode:
     def __init__(self, key, user):
         self.key = key
         self.user = user
-        self.next = None
+        self.next: Optional['HashTableNode'] = None
 
 class HashTable:
     def __init__(self, size=10):
         self.size = size
-        self.table = [None] * size
+        self.table: List[Optional[HashTableNode]] = [None] * size
 
     def hash_function(self, key):
         index = sum(ord(char) for char in str(key)) % self.size
-        print(f"[HASH] key='{key}' → index={index}")
         return index
 
     def insert(self, key, user):
@@ -20,32 +21,28 @@ class HashTable:
 
         if self.table[index] is None:
             self.table[index] = new_node
-            print(f"[INSERT] '{key}' inserted at index {index} (no collision)")
         else:
-            print(f"[COLLISION] inserting '{key}' at index {index} (linked list used)")
             temp = self.table[index]
-            while temp.next:
+            while temp and temp.next:
                 if temp.key == key:
-                    print(f"[UPDATE] Key '{key}' already exists, updating value")
                     temp.user = user
                     return
                 temp = temp.next
-            if temp.key == key:
-                print(f"[UPDATE] Key '{key}' already exists at end, updating value")
+            if temp and temp.key == key:
                 temp.user = user
             else:
-                temp.next = new_node
-                print(f"[INSERT] '{key}' added to chain at index {index}")
+                if temp:
+                    temp.next = new_node
+                else:
+                    self.table[index] = new_node
 
     def get(self, key):
         index = self.hash_function(key)
         temp = self.table[index]
         while temp:
             if temp.key == key:
-                print(f"[GET] Found '{key}' at index {index} → {temp.user}")
                 return temp.user
             temp = temp.next
-        print(f"[GET] Key '{key}' not found at index {index}")
         return None
 
     def delete(self, key):
@@ -58,11 +55,9 @@ class HashTable:
                     prev.next = temp.next
                 else:
                     self.table[index] = temp.next
-                print(f"[DELETE] '{key}' removed from index {index}")
                 return True
             prev = temp
             temp = temp.next
-        print(f"[DELETE] Key '{key}' not found in index {index}")
         return False
 
 

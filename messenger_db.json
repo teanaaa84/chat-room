@@ -1,0 +1,273 @@
+{
+  "users": {
+    "sara": {
+      "user_id": "AA2DE69D",
+      "password": "123456",
+      "messages": [
+        {
+          "id": 1,
+          "from": "tina",
+          "to": "sara",
+          "text": "hi",
+          "timestamp": "2025-07-20 11:56:44",
+          "replies": [],
+          "unread": false
+        },
+        {
+          "id": 2,
+          "from": "tina",
+          "to": "sara",
+          "text": "hi",
+          "timestamp": "2025-07-20 11:57:32",
+          "replies": [],
+          "unread": false
+        },
+        {
+          "id": 3,
+          "from": "tina",
+          "to": "sara",
+          "text": "hi",
+          "timestamp": "2025-07-20 12:31:46",
+          "replies": [],
+          "unread": false
+        },
+        {
+          "id": 4,
+          "from": "tina",
+          "to": "sara",
+          "text": "how are you",
+          "timestamp": "2025-07-21 13:39:25",
+          "replies": [
+            {
+              "from": "sara",
+              "content": "fine",
+              "time": "2025-07-21 15:25:34"
+            }
+          ],
+          "unread": false
+        },
+        {
+          "id": 5,
+          "from": "tina",
+          "to": "sara",
+          "text": "hi",
+          "timestamp": "2025-07-21 13:41:42",
+          "replies": [],
+          "unread": false
+        },
+        {
+          "id": 6,
+          "from": "sara",
+          "to": "sara",
+          "text": "salammmm",
+          "timestamp": "2025-07-21 13:53:44",
+          "replies": [],
+          "unread": false
+        },
+        {
+          "id": 7,
+          "from": "sara",
+          "to": "sara",
+          "text": "hi",
+          "timestamp": "2025-07-21 14:04:58",
+          "replies": [],
+          "unread": false
+        },
+        {
+          "id": 8,
+          "from": "sara",
+          "to": "sara",
+          "text": "fine",
+          "timestamp": "2025-07-21 15:25:34",
+          "replies": [],
+          "unread": false
+        },
+        {
+          "id": 9,
+          "from": "sara",
+          "to": "sara",
+          "text": "fine",
+          "timestamp": "2025-07-21 15:30:28",
+          "replies": [],
+          "unread": false
+        },
+        {
+          "id": 10,
+          "from": "tina",
+          "to": "sara",
+          "text": "hi",
+          "timestamp": "2025-07-21 15:34:23",
+          "replies": [],
+          "unread": false
+        },
+        {
+          "id": 11,
+          "from": "sara",
+          "to": "sara",
+          "text": "hiii",
+          "timestamp": "2025-07-21 15:39:37",
+          "replies": [],
+          "unread": false
+        }
+      ]
+    },
+    "tina": {
+      "user_id": "42FE8306",
+      "password": "1231",
+      "messages": [
+        {
+          "id": 1,
+          "from": "tina",
+          "to": "tina",
+          "text": "hi",
+          "timestamp": "2025-07-20 11:47:22",
+          "replies": [],
+          "unread": false
+        },
+        {
+          "id": 2,
+          "from": "tina",
+          "to": "tina",
+          "text": "how are you",
+          "timestamp": "2025-07-21 13:41:50",
+          "replies": [],
+          "unread": false
+        },
+        {
+          "id": 3,
+          "from": "tina",
+          "to": "tina",
+          "text": "hm",
+          "timestamp": "2025-07-21 13:50:59",
+          "replies": [],
+          "unread": false
+        },
+        {
+          "id": 4,
+          "from": "tina",
+          "to": "tina",
+          "text": "how are you",
+          "timestamp": "2025-07-21 13:39:25",
+          "replies": [],
+          "unread": false
+        },
+        {
+          "id": 5,
+          "from": "tina",
+          "to": "tina",
+          "text": "hi",
+          "timestamp": "2025-07-21 13:41:42",
+          "replies": [],
+          "unread": false
+        },
+        {
+          "id": 6,
+          "from": "sara",
+          "to": "tina",
+          "text": "salammmm",
+          "timestamp": "2025-07-21 13:53:44",
+          "replies": [],
+          "unread": false
+        },
+        {
+          "id": 7,
+          "from": "sara",
+          "to": "tina",
+          "text": "hi",
+          "timestamp": "2025-07-21 14:04:58",
+          "replies": [],
+          "unread": false
+        },
+        {
+          "id": 8,
+          "from": "sara",
+          "to": "tina",
+          "text": "fine",
+          "timestamp": "2025-07-21 15:25:34",
+          "replies": [],
+          "unread": false
+        },
+        {
+          "id": 9,
+          "from": "sara",
+          "to": "tina",
+          "text": "fine",
+          "timestamp": "2025-07-21 15:30:28",
+          "replies": [],
+          "unread": false
+        },
+        {
+          "id": 10,
+          "from": "tina",
+          "to": "tina",
+          "text": "hi",
+          "timestamp": "2025-07-21 15:34:23",
+          "replies": [],
+          "unread": false
+        },
+        {
+          "id": 11,
+          "from": "sara",
+          "to": "tina",
+          "text": "hiii",
+          "timestamp": "2025-07-21 15:39:37",
+          "replies": [],
+          "unread": false
+        }
+      ]
+    },
+    "amirali": {
+      "user_id": "1555",
+      "password": "123456",
+      "messages": [
+        {
+          "id": 1,
+          "from": "tina",
+          "to": "amirali",
+          "text": "hi",
+          "timestamp": "2025-07-21 13:39:17",
+          "replies": [],
+          "unread": true
+        },
+        {
+          "id": 2,
+          "from": "tina",
+          "to": "amirali",
+          "text": "how are you",
+          "timestamp": "2025-07-21 13:41:50",
+          "replies": [],
+          "unread": true
+        },
+        {
+          "id": 3,
+          "from": "tina",
+          "to": "amirali",
+          "text": "hm",
+          "timestamp": "2025-07-21 13:50:59",
+          "replies": [],
+          "unread": true
+        }
+      ]
+    },
+    "test_user_a6a5": {
+      "user_id": "BD8792B1",
+      "password": "123456",
+      "messages": [
+        {
+          "id": 1,
+          "from": "tina",
+          "to": "test_user_a6a5",
+          "text": "hi",
+          "timestamp": "2025-07-20 11:47:22",
+          "replies": [],
+          "unread": true
+        }
+      ]
+    },
+    "test_user_b8e8": {
+      "user_id": "5901D50D",
+      "password": "123456",
+      "messages": []
+    }
+  }
+}

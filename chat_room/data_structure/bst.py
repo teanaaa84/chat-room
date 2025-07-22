@@ -23,11 +23,15 @@ class bst_search:
                     current.left = bst_node(message)
                     return
                 current = current.left
-            else:
+            elif message.id > current.message.id:
                 if current.right is None:
                     current.right = bst_node(message)
                     return
                 current = current.right
+            else:
+                # Duplicate id: update the message
+                current.message = message
+                return
 
     def search(self, message_id):
         current = self.p
@@ -41,6 +45,8 @@ class bst_search:
         return None
 
     def min_bst(self, node):
+        if node is None:
+            return None
         current = node
         while current.left is not None:
             current = current.left

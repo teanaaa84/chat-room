@@ -1,11 +1,13 @@
+from typing import Optional
+
 class Stack_node:  # کتاب
     def __init__(self, value):
         self.value = value  # اسمش
-        self.next = None  # کتاب زیریش
+        self.next: Optional['Stack_node'] = None  # کتاب زیریش
 
 
 class Stack:  # میز
-    def __init__(self, top=None):
+    def __init__(self, top: Optional[Stack_node] = None):
         self.top = top  # بالاترین کتاب
 
     def push(self, value):
@@ -18,6 +20,8 @@ class Stack:  # میز
         if self.is_empty():
             raise IndexError("stack is empty!")
         else:
+            if self.top is None:
+                raise IndexError("stack is empty!")
             value = self.top.value
             self.top = self.top.next
             return value
@@ -27,6 +31,8 @@ class Stack:  # میز
 
     def peek(self):
         if self.is_empty():
+            return None
+        if self.top is None:
             return None
         return self.top.value
 

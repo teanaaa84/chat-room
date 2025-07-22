@@ -1,6 +1,6 @@
 import unittest
 import os
-from database_manager import DatabaseManager
+from storage.database_manager import DatabaseManager
 from models.user import User
 
 class TestDatabaseManager(unittest.TestCase):
